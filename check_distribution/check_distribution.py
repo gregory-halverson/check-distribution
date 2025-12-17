@@ -16,6 +16,12 @@ def check_distribution(
         date_UTC: Union[date, str] = None,
         target: str = None,
         allow_blank: bool = False):
+    # Check for empty array
+    if np.size(image) == 0:
+        if not allow_blank:
+            raise BlankOutputError(f"variable {variable} is empty")
+        return
+    
     unique = np.unique(image)
     if hasattr(image, 'dtype') and np.issubdtype(image.dtype, np.floating):
         nan_proportion = np.count_nonzero(np.isnan(image)) / np.size(image)
